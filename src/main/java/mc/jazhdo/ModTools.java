@@ -13,6 +13,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -107,8 +111,10 @@ public class ModTools extends JavaPlugin {
                         view.setItem(8, getOrAir(border));
 
                         // Fill the rest in with the target player's inventory
-                        ItemStack[] items = targetInv.getContents();
-                        for (int i = 0; i < items.length; i++) view.setItem(9 + i, getOrAir(items[i]));
+                        List<ItemStack> items = List.of(targetInv.getContents()), hotbar = items.subList(0, 8), inv = items.subList(9, 35);
+                        for (int i = 9; i < 36; i++) view.setItem(i, getOrAir(inv.get(i - 9)));
+                        for (int i = 36; i < 45; i++) view.setItem(i, border);
+                        for (int i = 45; i < 53; i++) view.setItem(i, getOrAir(hotbar.get(i - 45)));
                         
                         // Show player the created inventory
                         player.openInventory(view);
@@ -129,22 +135,52 @@ public class ModTools extends JavaPlugin {
         }
     }
 
+    private class Listeners implements Listener {
+        @EventHandler
+        public void onInventoryClick(InventoryClickEvent event) {
+            // Make sure inventory is from the /inv command
+            String inventoryName = event.getInventory().getName();
+            if (!(inventoryName.startsWith("Player ") && inventoryName.endsWith("'s inventory"))) return;
+
+            // Cancel the click
+            event.setCancelled(true);
+        }
+
+        @EventHandler
+        public void onInventoryDrag(InventoryDragEvent event) {
+            // Make sure inventory is from the /inv command
+            String inventoryName = event.getInventory().getName();
+            if (!(inventoryName.startsWith("Player ") && inventoryName.endsWith("'s inventory"))) return;
+
+            // Cancel the click
+            event.setCancelled(true);
+        }
+    }
+
     @Override
     public void onEnable() {
         getLogger().info("Starting...");
-        saveDefaultConfig();
 
+        // Setup config
+        saveDefaultConfig();
         config = getConfig();
         
+        // Register commands
         Commands commands = new Commands();
         Server server = getServer();
         server.getPluginCommand("spectate").setExecutor(commands);
         server.getPluginCommand("inventory").setExecutor(commands);
+
+        // Register listener
+        Listeners listener = new Listeners();
+        Bukkit.getPluginManager().registerEvents(listener, this);
     }
 
     @Override
     public void onDisable() {
         getLogger().info("Shuting down...");
+
+        // Save just in case
         saveConfig();
     }
 }
