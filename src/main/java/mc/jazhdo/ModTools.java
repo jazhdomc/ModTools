@@ -32,15 +32,8 @@ public class ModTools extends JavaPlugin {
 
             // Make sure a player sent the command
             if (sender instanceof Player player) {
-                // Check perms
-                String commandName = command.getName();
-                if (player.hasPermission("modtools." + commandName)) {
-                    sendMessage(player, ChatColor.RED + "You do not have the required permissions to use this command. If this is incorrect, contact a higher staff member for help.");
-                    return true;
-                }
-
                 // Perform different functions depending on command
-                switch (commandName) {
+                switch (command.getName()) {
                     case "spectate" -> {
                         // Whether to teleport them to the spectating location or to take them back
                         String base = "spectate-origins." + player.getName().toLowerCase() + ".";
@@ -130,7 +123,7 @@ public class ModTools extends JavaPlugin {
         }
 
         private void sendMessage(Player player, String msg) {
-            player.spigot().sendMessage(new TextComponent(msg));
+            player.spigot().sendMessage(TextComponent.fromLegacyText(msg));
         }
 
         private ItemStack getOrAir(ItemStack input) {
