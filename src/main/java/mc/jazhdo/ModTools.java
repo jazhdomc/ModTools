@@ -115,7 +115,7 @@ public class ModTools extends JavaPlugin {
                         List<ItemStack> items = Arrays.asList(targetInv.getContents()), hotbar = items.subList(0, 9), inv = items.subList(9, 36);
                         for (int i = 9; i < 36; i++) view.setItem(i, getOrAir(inv.get(i - 9)));
                         for (int i = 36; i < 45; i++) view.setItem(i, border);
-                        for (int i = 45; i < 53; i++) view.setItem(i, getOrAir(hotbar.get(i - 45)));
+                        for (int i = 45; i < 54; i++) view.setItem(i, getOrAir(hotbar.get(i - 45)));
                         
                         // Show player the created inventory
                         player.openInventory(view);
