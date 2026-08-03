@@ -1,5 +1,6 @@
 package mc.jazhdo;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -111,7 +112,7 @@ public class ModTools extends JavaPlugin {
                         view.setItem(8, getOrAir(border));
 
                         // Fill the rest in with the target player's inventory
-                        List<ItemStack> items = List.of(targetInv.getContents()), hotbar = items.subList(0, 8), inv = items.subList(9, 35);
+                        List<ItemStack> items = Arrays.asList(targetInv.getContents()), hotbar = items.subList(0, 9), inv = items.subList(9, 36);
                         for (int i = 9; i < 36; i++) view.setItem(i, getOrAir(inv.get(i - 9)));
                         for (int i = 36; i < 45; i++) view.setItem(i, border);
                         for (int i = 45; i < 53; i++) view.setItem(i, getOrAir(hotbar.get(i - 45)));
