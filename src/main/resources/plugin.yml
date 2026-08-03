@@ -1,0 +1,28 @@
+name: ModTools
+version: 0.1.0
+description: A collection of moderation tools used in JazhdoMC.
+author: jazhdo
+main: mc.jazhdo.ModTools
+
+depend: []
+softdepend: []
+
+commands:
+  spectate:
+    description: Spectate a player.
+    usage: /spectate <player>
+    aliases: [view]
+    permission: modtools.spectate
+  inventory:
+    description: Check a player's inventory.
+    usage: /inventory <player>
+    aliases: [inv]
+    permission: modtools.inventory
+
+permissions:
+  modtools.spectate:
+    description: Access to the command "/spectate"
+    default: false
+  modtools.inventory:
+    description: Access to the command "/inventory"
+    default: false

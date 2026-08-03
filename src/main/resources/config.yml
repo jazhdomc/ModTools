@@ -1,0 +1,4 @@
+# The configuration file for the ModTools plugin by JazhdoMC.
+
+# The locations of where to teleport mods back after spectating
+spectate-origins:
