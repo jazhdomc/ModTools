@@ -62,10 +62,8 @@ public class ModTools extends JavaPlugin {
                             player.setGameMode(GameMode.SPECTATOR);
                             sendMessage(player, ChatColor.GOLD + "Teleporting you to player " + args[0] + "...\nUse the command \"/spectate\" to exit spectating mode and go back.");
                             player.teleport(to);
-                            player.setSpectatorTarget(to);
                         } else {
                             // Teleport player
-                            player.setSpectatorTarget(null);
                             sendMessage(player, ChatColor.GOLD + "Teleporting you back...");
                             List<Double> coords = config.getDoubleList(base + "loc");
                             player.teleport(new Location(Bukkit.getWorld(config.getString(base + "world")), coords.get(0), coords.get(1), coords.get(2), coords.get(3).floatValue(), coords.get(4).floatValue()));
@@ -106,11 +104,11 @@ public class ModTools extends JavaPlugin {
                         view.setItem(5, getOrAir(targetInv.getChestplate()));
                         view.setItem(6, getOrAir(targetInv.getLeggings()));
                         view.setItem(7, getOrAir(targetInv.getBoots()));
-                        for (int i = 8; i < 18; i++) view.setItem(i, getOrAir(border));
+                        view.setItem(8, getOrAir(border));
 
                         // Fill the rest in with the target player's inventory
                         ItemStack[] items = targetInv.getContents();
-                        for (int i = 0; i < items.length; i++) view.setItem(18 + i, getOrAir(items[i]));
+                        for (int i = 0; i < items.length; i++) view.setItem(9 + i, getOrAir(items[i]));
                         
                         // Show player the created inventory
                         player.openInventory(view);
